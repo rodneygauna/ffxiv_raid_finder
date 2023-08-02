@@ -58,7 +58,7 @@ def register_user():
         db.session.add(user)
         db.session.commit()
         flash('You have successfully registered!', 'success')
-        return redirect(url_for('users.login_user'))
+        return redirect(url_for('users.login'))
 
     return render_template('users/register.html',
                            title='FFXIV Raid Finder - Register',
