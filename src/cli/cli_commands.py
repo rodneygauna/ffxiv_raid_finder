@@ -76,14 +76,14 @@ def db_seed():
     for i in range(1, max_range):
         data.append(
             Job(
-                job = random.choice(
+                job=random.choice(
                     ["Paladin", "Warrior", "Dark Knight", "Warrior",
                      "Monk", "Dragoon", "Ninja", "Samurai", "Reaper",
                      "Bard", "Machinist", "Dancer",
                      "Black Mage", "Summoner", "Red Mage", "Blue Mage"]
                 ),
-                level = random.randint(1, 90),
-                description = faker.paragraph(nb_sentences=3),
+                level=random.randint(1, 90),
+                description=faker.paragraph(nb_sentences=3),
             )
         )
 
