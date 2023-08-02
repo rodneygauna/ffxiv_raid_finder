@@ -60,8 +60,8 @@ def register_user():
         flash('You have successfully registered!', 'success')
         return redirect(url_for('users.login_user'))
 
-    return render_template('register.html',
-                           'FFXIV Raid Finder - Register',
+    return render_template('users/register.html',
+                           title='FFXIV Raid Finder - Register',
                            form=form)
 
 
