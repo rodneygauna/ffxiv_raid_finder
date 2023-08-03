@@ -24,13 +24,19 @@
           <li class="topbar-item">
             <a href="#" class="topbar-link">
               <i class="fas fa-envelope"></i>
-              <span class="topbar-link-text">Notifications</span>
+              <span class="topbar-link-text"></span>
             </a>
           </li>
           <li class="topbar-item">
             <a href="#" class="topbar-link">
               <i class="fas fa-user"></i>
-              <span class="topbar-link-text">Profile</span>
+              <span class="topbar-link-text"></span>
+            </a>
+          </li>
+          <li class="topbar-item">
+            <a href="{{ url_for('users.logout') }}" class="topbar-link">
+              <i class="fas fa-sign-out-alt"></i>
+              <span class="topbar-link-text">Logout</span>
             </a>
           </li>
           {% else %}
