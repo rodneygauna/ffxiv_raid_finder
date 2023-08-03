@@ -1,0 +1,52 @@
+{% block navbar %}
+<div class="topbar">
+  <div class="topbar-row">
+    <img src="#" alt="Logo" />
+    <div class="topbar-column">
+      <div class="topbar-left">
+        <ul>
+          <li class="topbar-item">
+            <a href="{{ url_for('core.index') }}" class="topbar-link">
+              <i class="fas fa-home"></i>
+              <span class="topbar-link-text">Home</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="topbar-column">
+      <div class="topbar-right">
+        <ul>
+          {% if current_user.is_authenticated %}
+          <li class="topbar-item">
+            <a href="#" class="topbar-link">
+              <i class="fas fa-envelope"></i>
+              <span class="topbar-link-text">Notifications</span>
+            </a>
+          </li>
+          <li class="topbar-item">
+            <a href="#" class="topbar-link">
+              <i class="fas fa-user"></i>
+              <span class="topbar-link-text">Profile</span>
+            </a>
+          </li>
+          {% else %}
+          <li class="topbar-item">
+            <a href="{{ url_for('users.register_user') }}" class="topbar-link">
+              <i class="fas fa-arrow-right"></i>
+              <span class="topbar-link-text">Register</span>
+            </a>
+          </li>
+          <li class="topbar-item">
+            <a href="{{ url_for('users.login') }}" class="topbar-link">
+              <i class="fas fa-sign-in-alt"></i>
+              <span class="topbar-link-text">Login</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock navbar %}
