@@ -52,8 +52,24 @@ class User(db.Model, UserMixin):
         """Checks if the password is correct"""
         return check_password_hash(self.password_hash, password)
 
-    def __repr__(self):
-        return f"User email: {self.email}"
+
+# Model - User Accounts (Discord, YouTube, Twitch)
+class UserAccounts(db.Model):
+    """User's Steam and Microsoft Accounts"""
+
+    __tablename__ = "user_game_accounts"
+
+    # IDs
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    # Account Information
+    discord_account = db.Column(db.Text)
+    youtube_account = db.Column(db.Text)
+    twitch_account = db.Column(db.Text)
+    # Timestamps
+    created_date = db.Column(db.DateTime, nullable=False,
+                             default=datetime.utcnow)
+    updated_date = db.Column(db.DateTime, default=datetime.utcnow)
 
 
 # Model - Characters
@@ -75,9 +91,6 @@ class Character(db.Model):
     race = db.Column(db.String(255), nullable=False)
     profile_url = db.Column(db.Text)
 
-    def __repr__(self):
-        return f"Character name: {self.name}"
-
 
 # Model - User Characters
 class UserCharacter(db.Model):
@@ -94,9 +107,6 @@ class UserCharacter(db.Model):
     # Relationships
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     character_id = db.Column(db.Integer, db.ForeignKey("characters.id"))
-
-    def __repr__(self):
-        return f"User ID: {self.user_id} - Character ID: {self.character_id}"
 
 
 # Model - Jobs
@@ -117,9 +127,7 @@ class Job(db.Model):
     job = db.Column(db.String(255), nullable=False)
     level = db.Column(db.Integer, nullable=False)
     description = db.Column(db.Text)
-
-    def __repr__(self):
-        return f"Job name: {self.job}"
+    realm = db.Column(db.String(255), nullable=False)
 
 
 # Model - User Character Jobs
@@ -138,5 +146,51 @@ class CharacterJob(db.Model):
     character_id = db.Column(db.Integer, db.ForeignKey("characters.id"))
     job_id = db.Column(db.Integer, db.ForeignKey("jobs.id"))
 
-    def __repr__(self):
-        return f"Character ID: {self.character_id} - Job ID: {self.job_id}"
+
+# Model - Events
+class Events(db.Model):
+    """Raid Events"""
+
+    __tablename__ = "events"
+
+    # IDs
+    id = db.Column(db.Integer, primary_key=True)
+    leader_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    # Event Information
+    start_date = db.Column(db.Date, nullable=False)
+    start_time = db.Column(db.Time, nullable=False)
+    start_timezone = db.Column(db.Text, nullable=False)
+    language = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text)
+    event_status = db.Column(db.String(30), nullable=False, default="open")
+    requirements = db.Column(db.Text)
+    # Timestamps
+    created_date = db.Column(db.DateTime, nullable=False,
+                             default=datetime.utcnow)
+    updated_date = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+# Model - Event Members
+class EventRoster(db.Model):
+    """Event Member Roster"""
+
+    __tablename__ = "event_roster"
+
+    # IDs
+    id = db.Column(db.Integer, primary_key=True)
+    event_id = db.Column(db.Integer, db.ForeignKey("events.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    character_id = db.Column(db.Integer, db.ForeignKey("characters.id"))
+    character_job_id = db.Column(
+        db.Integer, db.ForeignKey("character_jobs.id"))
+    # Event Information
+    role = db.Column(db.String(255), nullable=False)
+    secondary_role = db.Column(db.String(255))
+    comments = db.Column(db.Text)
+    # Event Status
+    player_status = db.Column(db.String(30), nullable=False, default="pending")
+    # Timestamps
+    created_date = db.Column(
+        db.DateTime, nullable=False, default=datetime.utcnow)
+    updated_date = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_by = db.Column(db.Integer, db.ForeignKey("users.id"))
